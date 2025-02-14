@@ -18,7 +18,7 @@ const albums = [
     {
         id: '602475686750',
         artist: 'kendrick lamar',
-        title: 'gnx',
+        title: 'GNX',
         label: 'interscope',
         stars: 4,
         genre: 'hip hop',
@@ -126,6 +126,94 @@ const albums = [
         group: 'fave'
     }
 ]
+
+// build card
+const buildCard =(obj)=> {
+    const column = document.createElement('div')
+    column.classList.add('col')
+
+    const cardColor = obj.group == 'new' ? 'success' : 'primary'
+
+    const card = document.createElement('div')
+    card.classList.add('card', 'h-100', `text-bg-${cardColor}`)
+    card.setAttribute('id', `card_${obj.id}`)
+
+    const cardHeader = document.createElement('header')
+    cardHeader.classList.add('card-header')
+
+    const cardTitle = document.createElement('h2')
+    cardTitle.classList.add('card-title', 'text-capitalize')
+    cardTitle.innerText = obj.title
+
+    cardHeader.appendChild(cardTitle)
+
+    const cardBody = document.createElement('section')
+    cardBody.classList.add('card-body')
+
+    const cardArtist = document.createElement('h3')
+    cardArtist.classList.add('text-capitalize', 'fst-italic')
+    cardArtist.innerText = obj.artist
+
+    const cardYrReleased = document.createElement('p')
+    cardYrReleased.classList.add('card-text')
+    cardYrReleased.innerText = `Released: ${obj.yrReleased}`
+
+    const cardLabel = document.createElement('p')
+    cardLabel.classList.add('card-text', 'text-capitalize')
+    cardLabel.innerText = `Label: ${obj.label}`
+
+    cardBody.appendChild(cardArtist)
+    cardBody.appendChild(cardYrReleased)
+    cardBody.appendChild(cardLabel)
+
+    
+    const cardFooter = document.createElement('footer')
+    cardFooter.classList.add('card-footer')
+    
+    const starDisplay = document.createElement('p')
+    let stars = ''
+
+    while (obj.stars > 0) {
+        stars = stars + '⭐️'
+        obj.stars--
+    }
+
+
+
+    starDisplay.innerText = stars
+
+    cardFooter.appendChild(starDisplay)
+
+    card.appendChild(cardHeader)
+    card.appendChild(cardBody)
+    card.appendChild(cardFooter)
+
+    column.appendChild(card)
+
+    return column
+
+}
+
+// load All albums
+const loadAll =(arr)=> {
+    const groups = ['new', 'fave']
+
+    groups.forEach(group => {
+        const row = document.getElementById(`${group}Row`)
+
+        for (let item of arr) {
+            if (item.group == group) {
+                
+                row.appendChild(buildCard(item))
+            }
+        }
+    })
+
+}
+
+loadAll(albums)
+
+
 
 
 
